@@ -1,7 +1,9 @@
 public enum EmployeeRank {
-    REGULAR ,
+    CLIENT,
+    REGULAR,
     MANAGER ,
-    MEMBER_OF_MANAGEMENT
+    MEMBER_OF_MANAGEMENT;
+
 
 
 }

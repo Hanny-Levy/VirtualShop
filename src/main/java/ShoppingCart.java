@@ -9,7 +9,5 @@ public class ShoppingCart {
         this.products = new HashMap<Product, Integer>();
     }
 
-    private void addProduct(Product product,int amount){
-        this.products.put(product,amount);
-    }
+
 }

@@ -1,7 +1,9 @@
 import java.util.Date;
 
 public class Order {
-    Date dateBy ;
+    Date dateBuy ;
     ShoppingCart shoppingCart;
+
+
 
 }
