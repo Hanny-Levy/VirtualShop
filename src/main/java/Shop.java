@@ -9,6 +9,10 @@ public class Shop {
     public Shop() {
         this.clientsAndEmployees = new ArrayList<Employee>();
         this.products = new ArrayList<Product>();
+
+        this.products.add(new Product("milk",11,0.3,3));
+        this.products.add(new Product("chocolate",9,0.1,5));
+        this.products.add(new Product("Bread",7,0.2,6));
     }
 
     public void loginMenu() {
@@ -26,7 +30,8 @@ public class Shop {
                 current = this.clientsAndEmployees.get(userIndex);
                 switch (userType) {
                     case CLIENT: {
-                        this.purchase(current);
+
+                        this.purchase(current,0);
                         break;
                     }
                     case EMPLOYEE: {
@@ -57,7 +62,7 @@ public class Shop {
 
    public int login(UserType userType) {
        int found = -1;
-       int index = 0;
+       int index = -1;
        System.out.println("Enter your username");
        String username = scanner.nextLine();
 
@@ -229,46 +234,52 @@ public class Shop {
     }
 
     public void printProducts(){
-        int index=0;
+        int index=-1;
         for(Product current : this.products) {
             index++;
             if (current.isInStock()){
                 System.out.print(index+" ");
                 current.print();
-                System.out.println( "amount in stock : " + current.getAmount());
             }
         }
     }
 
-    public void purchase(Employee employee){
-        int numberOfProduct;
-        do {
+    public void purchase(Employee employee,int sum){
+        int numberOfProduct;int amount;
             this.printProducts();
             System.out.println("choose the number of product you want :");
             numberOfProduct=scannerInt.nextInt();
-            Product product=this.products.get(numberOfProduct);
-            if (this.products.get(numberOfProduct)!=null){
-                System.out.println("How many of "+product.getName() + " do you want?");
-                int amount=scannerInt.nextInt();
-                while (amount<0 || amount>product.getAmount()){
-                    System.out.println("Invalid amount try again.");
-                    amount=scannerInt.nextInt();
-                }
-                    product.setAmount(product.getAmount()-amount);
-                    if(product.getAmount()==0)
-                        product.setInStock(false);
-                        employee.getShoppingCart().put(product,amount);
 
+        while (numberOfProduct!=Def.FINISH_ORDER){
+            Product product=this.products.get(numberOfProduct);
+            if (numberOfProduct<this.products.size()){
+                System.out.println("How many of "+product.getName() + " do you want?");
+                amount=scannerInt.nextInt();
+                while (amount<0 || amount>product.getAmount()) {
+                    System.out.println("Invalid amount try again.");
+                    amount = scannerInt.nextInt();
+                }
+
+                employee.getShoppingCart().getProducts().put(product,amount);
+                sum=employee.getShoppingCart().getSumOfCart(employee);
+            //    employee.getShoppingCart().print();
+                product.setAmount(product.getAmount()-amount);
+
+                System.out.println("---------------------------------------------");
+                this.printProducts();
+                System.out.println("choose the number of product you want :");
+                numberOfProduct=scannerInt.nextInt();
+                //System.out.println("The total price of this cart is : "+ sum);
+                //    this.purchase(employee,sum);
             }
 
         }
-        while (numberOfProduct!=Def.FINISH_ORDER);
 
+
+        Order order=new Order(employee, employee.getShoppingCart());
 
     }
 
-    public void addToProducts(){
-        this.printProducts();
-    }
+
 
 }

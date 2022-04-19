@@ -31,8 +31,7 @@ public class Main {
                     }
 
                     case Def.LOGIN:{
-                       // shop.loginMenu();
-                        shop.addToProducts();
+                       shop.loginMenu();
                         break;
                     }
 

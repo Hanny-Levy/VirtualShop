@@ -47,7 +47,7 @@ public class Product {
 
     public void print (){
        if(this.isInStock)
-        System.out.print(this.name + " price : " + this.price );
+        System.out.println("{"+this.name + " price :" + this.price +" } {"+ " amount in stock : " + this.amount+"}");
     }
 
     public int getAmount() {
@@ -56,5 +56,9 @@ public class Product {
 
     public void setAmount(int amount) {
         this.amount = amount;
+        if(this.amount==0)
+            this.isInStock=false;
     }
+
+
 }
