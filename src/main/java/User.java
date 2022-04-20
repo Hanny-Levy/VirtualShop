@@ -12,7 +12,7 @@ public class User {
         this.lastName = lastName;
         this.username = username;
         this.password = password;
-        this.shoppingCart = new ShoppingCart(this);
+        this.shoppingCart = new ShoppingCart();
     }
 
 

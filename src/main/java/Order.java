@@ -1,8 +1,9 @@
 import java.util.Date;
 
 public class Order {
-    Date dateBuy ;
-    ShoppingCart shoppingCart;
+    private Date dateBuy ;
+    private ShoppingCart shoppingCart;
+    private int totalPrice;
 
     public Order(Client client, ShoppingCart shoppingCart) {
         this.dateBuy = new Date();
@@ -14,5 +15,17 @@ public class Order {
         this.dateBuy = new Date();
         this.shoppingCart = shoppingCart;
         employee.getShoppingCart().getProducts().clear();
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Date getDateBuy() {
+        return dateBuy;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
     }
 }

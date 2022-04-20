@@ -5,33 +5,37 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner= new Scanner(System.in);
-        new Main().userMenu();
+        Main main=new Main();
+                while (true){
+                    main.userMenu();
+                }
 
 
+        }
+
+
+    private Shop virtualShop;
+    public Main(){
+        this.virtualShop = new Shop();
 
     }
+    private void userMenu() {
+        Scanner scanner = new Scanner(System.in);
 
-    private void userMenu(){
-        Scanner scanner= new Scanner(System.in);
-        Shop shop=new Shop();
-
-
-        while (true) {
-            System.out.println("Welcome to our virtual store of Hanny and Ofir :)" +'\n'+
-                    "1 - Create new account\n"+
+            System.out.println("Welcome to our virtual store of Hanny and Ofir :)" + '\n' +
+                    "1 - Create new account\n" +
                     "2 - Login to an existing account\n" +
                     "3 - Exit\n");
-            int userChoice;
-                userChoice = scanner.nextInt();
+            try{
+                int userChoice = scanner.nextInt();
                 switch (userChoice) {
                     case Def.NEW_ACCOUNT: {
-                        shop.createAccount();
+                        this.virtualShop.createAccount();
                         break;
                     }
 
-                    case Def.LOGIN:{
-                       shop.loginMenu();
+                    case Def.LOGIN: {
+                        this.virtualShop.loginMenu();
                         break;
                     }
 
@@ -39,9 +43,14 @@ public class Main {
                         break;
 
                 }
-
+            }
+         catch (InputMismatchException exception) {
+                System.out.println("Invalid choice try again");
             }
 
 
+        }
+
     }
-}
+
+

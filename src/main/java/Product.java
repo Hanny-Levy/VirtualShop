@@ -1,16 +1,17 @@
 public class Product {
     private String name ;
-    private  int price ;
+    private  double price ;
     private double discountPercentage;
     private boolean isInStock ;
     private int amount ;
 
-    public Product(String name, int price, double discountPercentage, int amount) {
+
+    public Product(String name, double price, double discountPercentage, int amount) {
         this.name = name;
         this.price = price;
         this.discountPercentage = discountPercentage;
-        this.amount=amount;
-        this.isInStock = true;
+        this.setAmount(amount);
+
     }
 
     public String getName() {
@@ -21,7 +22,7 @@ public class Product {
         this.name = name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -43,14 +44,24 @@ public class Product {
 
     public void setInStock(boolean inStock) {
         isInStock = inStock;
+        if(!this.isInStock){
+            this.amount=0;
+        }else if(this.amount==0)
+            this.amount++;
     }
 
     public void print (){
-       if(this.isInStock)
         System.out.println("{"+this.name + " price :" + this.price +" } {"+ " amount in stock : " + this.amount+"}");
     }
 
-    public int getAmount() {
+    public void setFinalPrice(Client client){
+        if(client.isMember()){
+            this.price=this.price*discountPercentage;
+        }
+    }
+
+
+        public int getAmount() {
         return amount;
     }
 
@@ -58,7 +69,11 @@ public class Product {
         this.amount = amount;
         if(this.amount==0)
             this.isInStock=false;
+        else this.isInStock=true;
     }
+
+
+
 
 
 }

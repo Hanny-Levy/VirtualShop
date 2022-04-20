@@ -1,12 +1,14 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Client extends User {
     private boolean isMember;
-
+    private ArrayList<Order> orders;
 
     public Client(String firstName, String lastName, String username, String password, boolean isMember) {
         super(firstName, lastName, username, password);
         this.isMember = isMember;
+        this.orders=new ArrayList<Order>();
     }
 
     public boolean isMember() {
@@ -18,9 +20,19 @@ public class Client extends User {
     }
 
     public void print() {
-        System.out.print("Hello {"+this.getFirstName()+"} {"+this.getLastName()+"} !");
-        if (this.isMember)
-            System.out.println("(VIP)!");  ;
+        String client="Hello {"+this.getFirstName()+"} {"+this.getLastName()+"}";
+
+        if (this.isMember){
+            client+="(VIP)!";
+        }else {
+            client+=" !";
+        }
+        System.out.println(client);
+
+    }
+
+    public ArrayList<Order> getOrders() {
+        return orders;
     }
 
 

@@ -14,19 +14,19 @@ public class Employee extends Client {
     public Employee(Client client){
         super(client.getFirstName(), client.getLastName(), client.getUsername(), client.getPassword(), client.isMember());
         this.rank=EmployeeRank.CLIENT;
-        this.discountPercentage = 0;
+        this.discountPercentage = 1;
     }
 
     public void setDiscountPercentage() {
         switch (rank) {
             case REGULAR:
-                this.discountPercentage = 0.1;
+                this.discountPercentage = 0.9;
                 break;
             case MANAGER:
-                this.discountPercentage = 0.2;
+                this.discountPercentage = 0.8;
                 break;
             case MEMBER_OF_MANAGEMENT:
-                this.discountPercentage = 0.3;
+                this.discountPercentage = 0.7;
                 break;
 
         }
@@ -82,6 +82,7 @@ public class Employee extends Client {
     }
 
     public void optionMenu(){
+        if (this.rank!=EmployeeRank.CLIENT)
         System.out.println("1 - Print a list of all customers. \n" +
                 "2 - Print the list of customers who are members of the club only.\n"+
                 "3 - Print the list of customers who have made at least one purchase.\n" +

@@ -4,9 +4,9 @@ import java.util.Map;
 public class ShoppingCart {
 
     private HashMap<Product,Integer> products;
-    private static int sumOfCart;
+    private  double sumOfCart;
 
-    public ShoppingCart(User user) {
+    public ShoppingCart() {
         this.products = new HashMap<Product, Integer>();
         this.sumOfCart=0;
     }
@@ -20,21 +20,17 @@ public class ShoppingCart {
     }
 
     private void setSumOfCart(Employee client) {
+        this.sumOfCart=0;
         for(Product product : products.keySet()) {
-            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-            System.out.println("products.get(product) " +products.get(product));
-            System.out.println("this.sumOfCart " + this.sumOfCart);
-            System.out.println("*************************");
-            this.sumOfCart+=(product.getPrice()*products.get(product));
-            System.out.println(this.sumOfCart);
-            System.out.println("^^^^^^^^^^^^^^^^^^^^^^^");
-
+            this.sumOfCart=(product.getPrice()*products.get(product));
         }
-
+        System.out.println();
     }
 
-    public int getSumOfCart(Employee client) {
-        this.setSumOfCart(client);
+
+
+    public double getSumOfCart(Employee employee) {
+        this.setSumOfCart(employee);
         return sumOfCart;
     }
 
