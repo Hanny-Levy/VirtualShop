@@ -10,9 +10,9 @@ public class Shop {
         this.clientsAndEmployees = new ArrayList<Employee>();
         this.products = new ArrayList<Product>();
 
-        this.products.add(new Product("milk", 11, 0.3, 3));
-        this.products.add(new Product("chocolate", 9, 0.1, 5));
-        this.products.add(new Product("Bread", 7, 0.2, 6));
+        this.products.add(new Product("milk", 11.0 , 0.3, 3));
+        this.products.add(new Product("chocolate", 9.0, 0.1, 5));
+        this.products.add(new Product("Bread", 7.0, 0.2, 6));
     }
 
     // Creating account for both options : employee / client .
@@ -161,7 +161,11 @@ public class Shop {
                                     this.setProductIsInStock();
                                     break;
                                 }
-
+                                case Def.MAKING_ORDER:{
+                                    Order order=this.purchase(current);
+                                    order.setTotalPrice((int) (order.getTotalPrice()* current.getDiscountPercentage()));
+                                    System.out.println("The total price after employee discount : "+order.getTotalPrice());
+                                }
                             }
                         }
                         while (choice!=Def.EMPLOYEE_LOGOUT);
@@ -283,7 +287,7 @@ public class Shop {
         }
     }
 
-    public void purchase(Employee employee){
+    public Order purchase(Employee employee){
         int numberOfProduct;int amount;int sum=0;Order order=null;
             this.printProductsInStock();
             System.out.println("choose the number of product you want :");
@@ -316,9 +320,9 @@ public class Shop {
 
         }
 
-
+        System.out.println("The total price of this cart is : "+ order.getTotalPrice());
         employee.getOrders().add(order);
-
+        return order;
     }
 
     public void printClientsWithAtLeastOneOrder(){

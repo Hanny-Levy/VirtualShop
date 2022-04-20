@@ -3,7 +3,7 @@ import java.util.Date;
 public class Order {
     private Date dateBuy ;
     private ShoppingCart shoppingCart;
-    private int totalPrice;
+    private double totalPrice;
 
     public Order(Client client, ShoppingCart shoppingCart) {
         this.dateBuy = new Date();
@@ -17,7 +17,7 @@ public class Order {
         employee.getShoppingCart().getProducts().clear();
     }
 
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -25,7 +25,7 @@ public class Order {
         return dateBuy;
     }
 
-    public int getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 }
