@@ -19,7 +19,7 @@ public class ShoppingCart {
 
     }
 
-    private void setSumOfCart(Employee client) {
+    private void setSumOfCart(Employee employee) {
         this.sumOfCart=0;
         for(Product product : products.keySet()) {
             this.sumOfCart=(product.getPrice()*products.get(product));

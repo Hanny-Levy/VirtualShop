@@ -77,7 +77,6 @@ public class Employee extends Client {
             this.getClient().print();
         else {
             System.out.println("Hello {" + this.getFirstName() + "} {" + this.getLastName() + "} ({" + this.rank + "})");
-            this.optionMenu();
         }
     }
 

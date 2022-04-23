@@ -5,16 +5,12 @@ public class Order {
     private ShoppingCart shoppingCart;
     private double totalPrice;
 
-    public Order(Client client, ShoppingCart shoppingCart) {
-        this.dateBuy = new Date();
-        this.shoppingCart = shoppingCart;
-        client.getShoppingCart().getProducts().clear();
-    }
 
     public Order(Employee employee, ShoppingCart shoppingCart) {
         this.dateBuy = new Date();
         this.shoppingCart = shoppingCart;
         employee.getShoppingCart().getProducts().clear();
+
     }
 
     public void setTotalPrice(double totalPrice) {
@@ -28,4 +24,6 @@ public class Order {
     public double getTotalPrice() {
         return totalPrice;
     }
+
+
 }

@@ -26,9 +26,11 @@ public class Product {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setPriceMember() {
+        this.price=(this.price)*(1-this.discountPercentage);
+
     }
+
 
     public double getDiscountPercentage() {
         return discountPercentage;

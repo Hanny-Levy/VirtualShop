@@ -119,7 +119,7 @@ public class Shop {
         System.out.println("would you like to login to an employee account or customer? \n" +
                 "0 - for customer \n" +
                 "1 - for employee");
-        try {
+            try{
             int type = scannerInt.nextInt();
             UserType userType = UserType.values()[type];
             int userIndex = login(userType);
@@ -146,38 +146,36 @@ public class Shop {
                                     this.printAllClientsMembers();
                                     break;
                                 }
-                                case Def.PRINT_CLIENT_WITH_AT_LEAST_ONE_ORDER:{
+                                case Def.PRINT_CLIENT_WITH_AT_LEAST_ONE_ORDER: {
                                     this.printClientsWithAtLeastOneOrder();
                                     break;
                                 }
-                                case Def.PRINT_CLIENT_WITH_THE_HIGHEST_SUM_ORDERS:{
+                                case Def.PRINT_CLIENT_WITH_THE_HIGHEST_SUM_ORDERS: {
+                                    this.clientWithHighPurchaseAmount();
                                     break;
                                 }
-                                case Def.ADDING_NEW_PRODUCT:{
+                                case Def.ADDING_NEW_PRODUCT: {
                                     this.addNewProduct();
                                     break;
                                 }
-                                case Def.CHANGING_PRODUCT_STATUS:{
+                                case Def.CHANGING_PRODUCT_STATUS: {
                                     this.setProductIsInStock();
                                     break;
                                 }
-                                case Def.MAKING_ORDER:{
-                                    Order order=this.purchase(current);
-                                    order.setTotalPrice((int) (order.getTotalPrice()* current.getDiscountPercentage()));
-                                    System.out.println("The total price after employee discount : "+order.getTotalPrice());
+                                case Def.MAKING_ORDER: {
+                                    this.purchase(current);
+                                    break;
                                 }
                             }
                         }
-                        while (choice!=Def.EMPLOYEE_LOGOUT);
-                        break;
+                        while (choice != Def.EMPLOYEE_LOGOUT);
                     }
-                        }
-
-
+                }
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Invalid choice try again!");
-        }
+            }catch (IndexOutOfBoundsException exception){
+                System.out.println("Invalid choice try again");
+            }
+
     }
 
     public int login(UserType userType) {
@@ -206,6 +204,7 @@ public class Shop {
 
                     if (userType == UserType.CLIENT)
                         current.getClient().print();
+                    else current.print();
                     break;
                 }
 
@@ -258,18 +257,19 @@ public class Shop {
 
     public void printAllClients(){
         int index=1;
-        for (Employee current: this.clientsAndEmployees ) {
-                System.out.println(index+" " +current.getFirstName()+ " " + current.getLastName());
+        for (Client current: this.clientsAndEmployees ) {
+                System.out.print(index+" " );
+                current.printObject();
                 index++;
         }
     }
 
     public void printAllClientsMembers(){
         int index=1;
-        for (Employee current:
-                this.clientsAndEmployees ) {
+        for (Client current: this.clientsAndEmployees ) {
             if((current.isMember())){
-                System.out.println(index +" " +current.getFirstName()+ " " + current.getLastName());
+                System.out.print(index +" " );
+                current.printObject();
                 index++;
             }
         }
@@ -287,11 +287,12 @@ public class Shop {
         }
     }
 
-    public Order purchase(Employee employee){
-        int numberOfProduct;int amount;int sum=0;Order order=null;
-            this.printProductsInStock();
-            System.out.println("choose the number of product you want :");
-            numberOfProduct=scannerInt.nextInt();
+    public void purchase(Employee employee){
+        int numberOfProduct;int amount;double sum=0;Order order=null;
+        this.setDiscountForMember(employee.isMember());
+        this.printProductsInStock();
+        System.out.println("choose the number of product you want :");
+        numberOfProduct=scannerInt.nextInt();
 
         while (numberOfProduct!=Def.FINISH_ORDER){
             Product product=this.products.get(numberOfProduct);
@@ -321,15 +322,18 @@ public class Shop {
         }
 
         System.out.println("The total price of this cart is : "+ order.getTotalPrice());
-        employee.getOrders().add(order);
-        return order;
+        if(employee.getRank()!=EmployeeRank.CLIENT) {
+            order.setTotalPrice((order.getTotalPrice() * employee.getDiscountPercentage()));
+            System.out.println("The total price after employee discount : " + order.getTotalPrice());
+        }
+        employee.addOrder(order);
     }
 
     public void printClientsWithAtLeastOneOrder(){
         System.out.println("The client who made at least one order:");
-        for (Employee current:this.clientsAndEmployees) {
+        for (Client current:this.clientsAndEmployees) {
             if (current.getOrders().size()>=1)
-                current.print();
+                current.printObject();
         }
     }
 
@@ -388,4 +392,23 @@ public class Shop {
         }
 
     }
+
+    public void setDiscountForMember(boolean isMember){
+        if (isMember){
+            for (Product current: this.products) {
+                current.setPriceMember();
+            }
+        }
+    }
+
+    public void clientWithHighPurchaseAmount(){
+        Client client=this.clientsAndEmployees.get(0);
+        for (Client current:this.clientsAndEmployees) {
+            if (current.sumOfOrders()>client.sumOfOrders())
+                client=current;
+        }
+        System.out.println("The client with the Highest purchase amount :");
+        client.printObject();
+    }
+
 }
