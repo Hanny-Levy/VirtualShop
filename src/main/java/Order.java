@@ -10,7 +10,6 @@ public class Order {
         this.dateBuy = new Date();
         this.shoppingCart = shoppingCart;
         this.totalPrice=this.shoppingCart.getSumOfCart();
-        //employee.getShoppingCart().getProducts().clear();
 
     }
 

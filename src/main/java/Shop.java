@@ -149,7 +149,7 @@ public class Shop {
                                     break;
                                 }
                                 case Def.PRINT_CLIENT_WITH_THE_HIGHEST_SUM_ORDERS: {
-                                    this.clientWithHighPurchaseAmount();
+                                    this.printClientWithHighPurchaseAmount();
                                     break;
                                 }
                                 case Def.ADDING_NEW_PRODUCT: {
@@ -388,7 +388,7 @@ public class Shop {
         }
     }
 
-    public void clientWithHighPurchaseAmount(){
+    public void printClientWithHighPurchaseAmount(){
         Client client=this.clientsAndEmployees.get(0);
         for (Client current:this.clientsAndEmployees) {
             if (current.sumOfOrders()>client.sumOfOrders())

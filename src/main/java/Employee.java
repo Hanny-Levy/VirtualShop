@@ -46,16 +46,6 @@ public class Employee extends Client {
     }
         this.rank=EmployeeRank.values()[rank];
 
-   /*     switch (rank) {
-            case 1:
-                this.rank = EmployeeRank.REGULAR;
-                break;
-            case 2: this.rank=EmployeeRank.MANAGER;
-            break;
-            case 3: this.rank=EmployeeRank.MEMBER_OF_MANAGEMENT;
-            break;
-            default: this.rank=EmployeeRank.CLIENT;
-    }*/
     }
 
     public double getDiscountPercentage() {
