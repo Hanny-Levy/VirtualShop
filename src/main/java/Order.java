@@ -9,7 +9,8 @@ public class Order {
     public Order(Employee employee, ShoppingCart shoppingCart) {
         this.dateBuy = new Date();
         this.shoppingCart = shoppingCart;
-        employee.getShoppingCart().getProducts().clear();
+        this.totalPrice=this.shoppingCart.getSumOfCart();
+        //employee.getShoppingCart().getProducts().clear();
 
     }
 
@@ -25,5 +26,11 @@ public class Order {
         return totalPrice;
     }
 
+    public ShoppingCart getShoppingCart() {
+        return shoppingCart;
+    }
+    public void print(){
+        this.shoppingCart.print();
+    }
 
 }

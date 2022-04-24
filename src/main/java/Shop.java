@@ -13,6 +13,7 @@ public class Shop {
         this.products.add(new Product("milk", 11.0 , 0.3, 3));
         this.products.add(new Product("chocolate", 9.0, 0.1, 5));
         this.products.add(new Product("Bread", 7.0, 0.2, 6));
+        this.clientsAndEmployees.add(new Employee(new Client("Hanny","Levy","hanny","123456",true)));
     }
 
     // Creating account for both options : employee / client .
@@ -46,11 +47,8 @@ public class Shop {
 
     // scanning and checking valid details for creating account
     public void createUser(UserType type) {
-        boolean usernameTaken = false;
-        String username = null;
-        String firstName = null;
-        String lastName = null;
-        String password = null;
+        int usernameTaken;
+        String username = null , firstName = null, lastName = null , password = null;
         System.out.println("Enter your first name:");
         firstName = scanner.nextLine();
         while (!checkValidName(firstName)) {
@@ -67,9 +65,9 @@ public class Shop {
         do {
             System.out.println("Enter username:");
             username = scanner.nextLine();
-            usernameTaken = this.doesUsernameExist(username);
+            usernameTaken=this.doesUsernameExist(username);
         }
-        while (usernameTaken);
+        while (usernameTaken!=-1);
         boolean strongPassword = false;
         do {
             System.out.println("Enter a strong password: ");
@@ -122,11 +120,11 @@ public class Shop {
             try{
             int type = scannerInt.nextInt();
             UserType userType = UserType.values()[type];
-            int userIndex = login(userType);
-            if (userIndex == -1)
+            current=login(userType);
+            if (current == null) {
                 System.out.println("No such username ,please create account.");
+            }
             else {
-                current = this.clientsAndEmployees.get(userIndex);
                 switch (userType) {
                     case CLIENT: {
                         this.purchase(current);
@@ -178,40 +176,31 @@ public class Shop {
 
     }
 
-    public int login(UserType userType) {
-        int found = -1;
-        int index = -1;
+    public Employee login(UserType userType) {
+        int found = -1;Employee current=null;String password;
         System.out.println("Enter your username");
         String username = scanner.nextLine();
-
-        for (Employee current : this.clientsAndEmployees) {
-            index++;
-            if (current.equals(username)) {
-                {
-                    if ((userType==UserType.EMPLOYEE)&&(current.getRank()==EmployeeRank.CLIENT)){
-                        System.out.println("You are not an employee! Please connect through a client login");
-                        break;
-                    }
-
-                    System.out.println("Enter your password");
-                    String password = scanner.nextLine();
-                    while (!current.getPassword().equals(password)) {
-                        System.out.println("Invalid password try again!");
-                        password = scanner.nextLine();
-                    }
-                    found = index;
-
-
-                    if (userType == UserType.CLIENT)
-                        current.getClient().print();
-                    else current.print();
-                    break;
+        int index=doesUsernameExist(username);
+        if (index!=-1) {
+            current = this.clientsAndEmployees.get(index);
+            if ((userType == UserType.EMPLOYEE) && (current.getRank() == EmployeeRank.CLIENT)) {
+                System.out.println("You are not an employee! Please connect through a client login");
+                return null;
+            }
+                System.out.println("Enter your password");
+                password = scanner.nextLine();
+                while (!current.getPassword().equals(password)) {
+                    System.out.println("Invalid password try again!");
+                    password = scanner.nextLine();
                 }
 
-            }
+
+            if (userType == UserType.CLIENT)
+                current.getClient().print();
+            else current.print();
 
         }
-        return found;
+        return current;
     }
 
 
@@ -235,11 +224,12 @@ public class Shop {
         return strong;
     }
 
-    private boolean doesUsernameExist(String usernameToCheck){
-        boolean exist = false;
+    private int doesUsernameExist(String usernameToCheck){
+        int exist=-1 , index=-1;
         for (Client currentUser : this.clientsAndEmployees){
+            index++;
             if (currentUser.getUsername().equals(usernameToCheck)){
-                exist = true;
+                exist=index;
                 break;
             }
         }
@@ -287,41 +277,38 @@ public class Shop {
         }
     }
 
-    public void purchase(Employee employee){
-        int numberOfProduct;int amount;double sum=0;Order order=null;
+    public void purchase(Employee employee) {
+        int numberOfProduct,amount;
+        double sum = 0;
+        Order order = new Order(employee, employee.getShoppingCart());
         this.setDiscountForMember(employee.isMember());
-        this.printProductsInStock();
         System.out.println("choose the number of product you want :");
-        numberOfProduct=scannerInt.nextInt();
-
-        while (numberOfProduct!=Def.FINISH_ORDER){
-            Product product=this.products.get(numberOfProduct);
-            if (numberOfProduct<this.products.size()){
-                System.out.println("How many of "+product.getName() + " do you want?");
-                amount=scannerInt.nextInt();
-                while (amount<0 || amount>product.getAmount()) {
+        this.printProductsInStock();
+        numberOfProduct = scannerInt.nextInt();
+        while (numberOfProduct!=Def.FINISH_ORDER) {
+            Product product = this.products.get(numberOfProduct);
+            if (numberOfProduct < this.products.size()) {
+                System.out.println("How many of " + product.getName() + " do you want?");
+                amount = scannerInt.nextInt();
+                while (amount < 0 || amount > product.getAmount()) {
                     System.out.println("Invalid amount try again.");
                     amount = scannerInt.nextInt();
                 }
-
-                employee.getShoppingCart().getProducts().put(product,amount);
-                sum+=employee.getShoppingCart().getSumOfCart(employee);
-                order=new Order(employee, employee.getShoppingCart());
-                order.setTotalPrice(sum+order.getTotalPrice());
-
-                System.out.println("The total price of this cart is : "+ order.getTotalPrice());
-                employee.getShoppingCart().print();
-                product.setAmount(product.getAmount()-amount);
-
-                this.printProductsInStock();
-                System.out.println("choose the number of product you want :");
-                numberOfProduct=scannerInt.nextInt();
-
+                employee.getShoppingCart().add(product, amount);
+                employee.getShoppingCart().setSumOfCart(employee);
+                sum = employee.getShoppingCart().getSumOfCart();
+                order.print();
+                System.out.println("The total price of this cart is : " + sum);
+                System.out.println("________________________________________");
+                product.setAmount(product.getAmount() - amount);
             }
-
+            this.printProductsInStock();
+            System.out.println("choose the number of product you want :");
+            numberOfProduct = scannerInt.nextInt();
         }
 
-        System.out.println("The total price of this cart is : "+ order.getTotalPrice());
+        order.setTotalPrice(sum);
+        System.out.println("The total price of this cart is : "+ sum);
         if(employee.getRank()!=EmployeeRank.CLIENT) {
             order.setTotalPrice((order.getTotalPrice() * employee.getDiscountPercentage()));
             System.out.println("The total price after employee discount : " + order.getTotalPrice());

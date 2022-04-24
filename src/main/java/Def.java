@@ -2,7 +2,7 @@ public class Def {
     //MAIN MENU
     final static int NEW_ACCOUNT=1;
     final static int LOGIN=2;
-    final static int LOGOUT=3;
+    final static int EXIT=3;
 
     //EMPLOYEE MENU
     final static int PRINT_ALL_CLIENTS=1;

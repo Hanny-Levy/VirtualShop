@@ -48,7 +48,7 @@ public class Client extends User {
     }
 
     public void printObject(){
-        System.out.println("{ " +this.getFirstName() + " "+ this.getLastName() + '\n' +
+        System.out.println("{ " +this.getFirstName() +" "+ this.getLastName() + '\n' +
         "Member : " + this.isMember+ '\n' +
         "Amount of purchases : "  +  this.orders.size() + '\n' );
         if(this.orders.size()>0){

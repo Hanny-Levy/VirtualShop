@@ -20,13 +20,13 @@ public class Employee extends Client {
     public void setDiscountPercentage() {
         switch (rank) {
             case REGULAR:
-                this.discountPercentage = 0.9f;
+                this.discountPercentage = 0.9;
                 break;
             case MANAGER:
-                this.discountPercentage = 0.8f;
+                this.discountPercentage = 0.8;
                 break;
             case MEMBER_OF_MANAGEMENT:
-                this.discountPercentage = 0.7f;
+                this.discountPercentage = 0.7;
                 break;
 
         }
