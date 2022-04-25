@@ -15,10 +15,6 @@ public class Client extends User {
         return isMember;
     }
 
-    public void setMember(boolean member) {
-        isMember = member;
-    }
-
     public void print() {
         String client="Hello {"+this.getFirstName()+"} {"+this.getLastName()+"}";
 
