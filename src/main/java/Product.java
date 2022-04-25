@@ -8,9 +8,15 @@ public class Product {
 
     public Product(String name, double price, double discountPercentage, int amount) {
         this.name = name;
-        this.price = price;
+        this.price =price;
+        this.roundPrice();
         this.discountPercentage = discountPercentage;
         this.setAmount(amount);
+
+    }
+
+    public void roundPrice(){
+        this.price =(double)(Math.round(this.price*10.0)/10.0);
 
     }
 
@@ -26,9 +32,11 @@ public class Product {
         return price;
     }
 
+
+
     public void setPriceMember() {
         this.price=(this.price)*(1-this.discountPercentage);
-
+        this.roundPrice();
     }
 
 
@@ -53,14 +61,9 @@ public class Product {
     }
 
     public void print (){
-        System.out.println("{"+this.name + " price :" + this.price +" } {"+ " amount in stock : " + this.amount+"}");
+        System.out.println("{"+this.name + " price :" + this.price+"0" +" } {"+ " amount in stock : " + this.amount+"}");
     }
 
-    public void setFinalPrice(Client client){
-        if(client.isMember()){
-            this.price=this.price*discountPercentage;
-        }
-    }
 
 
         public int getAmount() {

@@ -1,13 +1,16 @@
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Order {
-    private Date dateBuy ;
+    private LocalDate dateBuy ;
     private ShoppingCart shoppingCart;
     private double totalPrice;
 
 
     public Order(Employee employee, ShoppingCart shoppingCart) {
-        this.dateBuy = new Date();
+        this.dateBuy = LocalDate.now();
         this.shoppingCart = shoppingCart;
         this.totalPrice=this.shoppingCart.getSumOfCart();
 
@@ -17,8 +20,10 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public Date getDateBuy() {
-        return dateBuy;
+    public String getDateBuy() {
+        DateTimeFormatter dateTimeFormatter =DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String date = this.dateBuy.format(dateTimeFormatter);
+        return date;
     }
 
     public double getTotalPrice() {
@@ -31,5 +36,7 @@ public class Order {
     public void print(){
         this.shoppingCart.print();
     }
+
+
 
 }

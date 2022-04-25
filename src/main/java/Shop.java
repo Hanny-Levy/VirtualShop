@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Shop {
+public class Shop implements ShopInterface{
     ArrayList<Employee> clientsAndEmployees;
     ArrayList<Product> products;
     Scanner scanner = new Scanner(System.in);
@@ -10,18 +10,17 @@ public class Shop {
         this.clientsAndEmployees = new ArrayList<Employee>();
         this.products = new ArrayList<Product>();
 
-        this.products.add(new Product("milk", 11.0 , 0.3, 3));
-        this.products.add(new Product("chocolate", 9.0, 0.1, 5));
-        this.products.add(new Product("Bread", 7.0, 0.2, 6));
-        this.clientsAndEmployees.add(new Employee(new Client("Hanny","Levy","hanny","123456",true)));
+        this.products.add(new Product("milk", 11.7888882 , 0.3, 3));
+        this.products.add(new Product("chocolate", 9.089991, 0.1, 5));
+        this.products.add(new Product("Bread", 7.58, 0.2, 6));
+        this.clientsAndEmployees.add(new Employee("Hanny","Levy","hanny","123456",false,3));
     }
 
     // Creating account for both options : employee / client .
     public void createAccount() {
-        System.out.println("Are you interested in creating an account for an employee or customer ? \n" +
-                "enter 0 for customer \n" +
+        System.out.println("Are you interested in creating an account for an employee or client ? \n" +
+                "enter 0 for client \n" +
                 "enter 1 for employee");
-
         int type;
         try {
             type = scannerInt.nextInt();
@@ -74,26 +73,31 @@ public class Shop {
             password = scanner.nextLine();
             strongPassword = this.checkIfStrongPassword(password);
         } while (!strongPassword);
-        System.out.println("Are you a member ?\n write Y for yes \n and N for no ");
-        char answer = scanner.nextLine().charAt(0);
-        boolean member = false;
-        switch (answer) {
-            case 'y':
-            case 'Y': {
-                member = true;
-                break;
+        char answer ;boolean member = false; int correctAnswer=0;
+        do{
+            System.out.println("Are you a member ?\n write Y for yes \n and N for no ");
+            answer = scanner.nextLine().charAt(0);
+            switch (answer) {
+                case 'y':
+                case 'Y': {
+                    member = true;
+                    correctAnswer++;
+                    break;
+                }
+                case 'n':
+                case 'N': {
+                    correctAnswer++;
+                    member = false;
+                    break;
+                }
             }
-            case 'n':
-            case 'N': {
-                member = false;
-                break;
-            }
-            default: {
-                System.out.println("Invalid answer ! try again");
-                answer = scanner.nextLine().charAt(0);
-                break;
-            }
+
         }
+        while (correctAnswer==0);
+
+
+
+
 
         if (type == UserType.CLIENT) {
             Client newClient = new Client(firstName, lastName, username, password, member);
@@ -111,11 +115,14 @@ public class Shop {
         System.out.println("User was added!");
     }
 
+    public void setMember(){
+
+    }
 
     public void loginMenu() {
         Employee current = null;
-        System.out.println("would you like to login to an employee account or customer? \n" +
-                "0 - for customer \n" +
+        System.out.println("would you like to login to an employee account or client? \n" +
+                "0 - for client \n" +
                 "1 - for employee");
             try{
             int type = scannerInt.nextInt();
@@ -141,7 +148,7 @@ public class Shop {
                                     break;
                                 }
                                 case Def.PRINT_ALL_CLUB_MEMBER: {
-                                    this.printAllClientsMembers();
+                                    this.printAllMembers();
                                     break;
                                 }
                                 case Def.PRINT_CLIENT_WITH_AT_LEAST_ONE_ORDER: {
@@ -172,7 +179,10 @@ public class Shop {
             }
             }catch (IndexOutOfBoundsException exception){
                 System.out.println("Invalid choice try again");
+            }catch (InputMismatchException exception){
+
             }
+
 
     }
 
@@ -208,7 +218,7 @@ public class Shop {
 
 
 
-    public boolean checkValidName(String name){
+    private boolean checkValidName(String name){
         for (int index=0 ;index<name.length(); index++){
             if (name.charAt(index)>47 && name.charAt(index)<58)
                 return false;
@@ -246,22 +256,27 @@ public class Shop {
 
 
     public void printAllClients(){
+        System.out.println("The clients are:");
         int index=1;
         for (Client current: this.clientsAndEmployees ) {
-                System.out.print(index+" " );
+                System.out.print(index+". " );
                 current.printObject();
                 index++;
         }
     }
 
-    public void printAllClientsMembers(){
+    public void printAllMembers(){
+        System.out.println("The clients that have a membership:");
         int index=1;
         for (Client current: this.clientsAndEmployees ) {
             if((current.isMember())){
-                System.out.print(index +" " );
+                System.out.print(index +". " );
                 current.printObject();
                 index++;
             }
+        }
+        if (index==1){
+            System.out.println("No club members yet .");
         }
 
     }
@@ -271,7 +286,7 @@ public class Shop {
         for(Product current : this.products) {
             index++;
             if (current.isInStock()){
-                System.out.print(index+" ");
+                System.out.print(index+". ");
                 current.print();
             }
         }
@@ -287,7 +302,8 @@ public class Shop {
         numberOfProduct = scannerInt.nextInt();
         while (numberOfProduct!=Def.FINISH_ORDER) {
             Product product = this.products.get(numberOfProduct);
-            if (numberOfProduct < this.products.size()) {
+            if ((product.isInStock())) {
+                if (numberOfProduct < this.products.size()) {
                 System.out.println("How many of " + product.getName() + " do you want?");
                 amount = scannerInt.nextInt();
                 while (amount < 0 || amount > product.getAmount()) {
@@ -296,11 +312,12 @@ public class Shop {
                 }
                 employee.getShoppingCart().add(product, amount);
                 employee.getShoppingCart().setSumOfCart(employee);
-                sum = employee.getShoppingCart().getSumOfCart();
+                sum = (employee.getShoppingCart().getSumOfCart());
                 order.print();
-                System.out.println("The total price of this cart is : " + sum);
+                System.out.println("The total price of this cart is : " + sum + "0");
                 System.out.println("________________________________________");
                 product.setAmount(product.getAmount() - amount);
+                }
             }
             this.printProductsInStock();
             System.out.println("choose the number of product you want :");
@@ -308,19 +325,24 @@ public class Shop {
         }
 
         order.setTotalPrice(sum);
-        System.out.println("The total price of this cart is : "+ sum);
+        System.out.println("The total price of this cart is : "+ sum+"0");
         if(employee.getRank()!=EmployeeRank.CLIENT) {
-            order.setTotalPrice((order.getTotalPrice() * employee.getDiscountPercentage()));
+            order.setTotalPrice(this.round(order.getTotalPrice() * employee.getDiscountPercentage()));
             System.out.println("The total price after employee discount : " + order.getTotalPrice());
         }
+
         employee.addOrder(order);
     }
 
     public void printClientsWithAtLeastOneOrder(){
-        System.out.println("The client who made at least one order:");
+        int index=1;
+        System.out.println("The clients who made at least one order:");
         for (Client current:this.clientsAndEmployees) {
-            if (current.getOrders().size()>=1)
+            if (current.getOrders().size()>=1){
+                System.out.print(index+". ");
                 current.printObject();
+                index++;
+            }
         }
     }
 
@@ -328,11 +350,19 @@ public class Shop {
         System.out.println("Write the description of the product: ");
         String name=scanner.nextLine();
         System.out.println("Price of the product: ");
-        int price = scannerInt.nextInt();
+        double price = scannerInt.nextDouble();
         System.out.println("Discount percentage for club members : ");
         double discountPercentage=scannerInt.nextDouble();
+        while (discountPercentage>1){
+            System.out.println("Invalid discount percentage , try again.");
+            discountPercentage=scannerInt.nextDouble();
+        }
         System.out.println("How much to add this product to stock?");
         int amount=scannerInt.nextInt();
+        while (amount<=0){
+            System.out.println("Invalid amount, try again.");
+            amount=scannerInt.nextInt();
+        }
         this.products.add(new Product(name,price,discountPercentage,amount));
         System.out.println(name + " has been added! \n");
     }
@@ -398,4 +428,7 @@ public class Shop {
         client.printObject();
     }
 
+    private double round(double price){
+        return ((double)(Math.round(price)*10.0)/10.0);
+    }
 }

@@ -1,4 +1,5 @@
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+
+import java.math.RoundingMode;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -6,11 +7,10 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Main main=new Main();
-                    main.userMenu();
+        main.userMenu();
 
 
-
-        }
+    }
 
 
     private Shop virtualShop;
@@ -46,6 +46,7 @@ public class Main {
             }
          catch (InputMismatchException exception) {
                 System.out.println("Invalid choice try again");
+                this.userMenu();
             }
 
 

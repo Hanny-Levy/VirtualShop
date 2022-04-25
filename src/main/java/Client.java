@@ -35,8 +35,11 @@ public class Client extends User {
         return orders;
     }
     public void addOrder(Order order){
-        this.orders.add(order);
-        this.getShoppingCart().getProducts().clear();
+        if (order.getShoppingCart().getProducts().size()>0){
+            this.orders.add(order);
+            this.getShoppingCart().getProducts().clear();
+        }
+
     }
 
     public double sumOfOrders() {
@@ -48,12 +51,12 @@ public class Client extends User {
     }
 
     public void printObject(){
-        System.out.println("{ " +this.getFirstName() +" "+ this.getLastName() + '\n' +
+        System.out.println(this.getFirstName() +" "+ this.getLastName() + '\n' +
         "Member : " + this.isMember+ '\n' +
         "Amount of purchases : "  +  this.orders.size() + '\n' );
         if(this.orders.size()>0){
             System.out.println("Total cost of all purchases : " + this.sumOfOrders() + '\n' +
-                    "Last purchase date : " + this.orders.get(this.orders.size() - 1).getDateBuy() + " }");
+                    "Last purchase date : " + this.orders.get(this.orders.size() - 1).getDateBuy());
         }
         System.out.println("__________________________________________________");
     }
