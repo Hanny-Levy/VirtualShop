@@ -313,7 +313,7 @@ public class Shop implements ShopInterface{
         if(employee.getRank()!=EmployeeRank.CLIENT) {
             double priceAfterDiscount=order.getTotalPrice() * employee.getDiscountPercentage();
             order.setTotalPrice(Math.round(priceAfterDiscount*10.00)/10.00);
-            System.out.println("The total price after employee discount : " + order.getTotalPrice());
+            System.out.println("The total price after employee discount : " + order.getTotalPrice() +'\n');
         }
 
         employee.addOrder(order);
