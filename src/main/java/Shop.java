@@ -239,12 +239,7 @@ public class Shop implements ShopInterface{
         }
         return exist;
     }
-
-
-
-    public ArrayList<Product> getProducts() {
-        return products;
-    }
+    
 
 
     public void printAllClients(){
@@ -303,9 +298,11 @@ public class Shop implements ShopInterface{
                     amount = scannerInt.nextInt();
                 }
                 employee.getShoppingCart().add(product, amount);
-                employee.getShoppingCart().setSumOfCart(employee);
-                sum = (employee.getShoppingCart().getSumOfCart());
+                employee.getShoppingCart().setSumOfCart();
+                sum=employee.getShoppingCart().getSumOfCart();
+                sum=Math.round(sum*10.00)/10.00;
                 order.print();
+                System.out.println();
                 System.out.println("The total price of this cart is : " + sum + "0");
                 System.out.println("________________________________________");
                 product.setAmount(product.getAmount() - amount);
@@ -315,11 +312,11 @@ public class Shop implements ShopInterface{
             System.out.println("choose the number of product you want :");
             numberOfProduct = scannerInt.nextInt();
         }
-
         order.setTotalPrice(sum);
         System.out.println("The total price of this cart is : "+ sum+"0");
         if(employee.getRank()!=EmployeeRank.CLIENT) {
-            order.setTotalPrice(this.round(order.getTotalPrice() * employee.getDiscountPercentage()));
+            double priceAfterDiscount=order.getTotalPrice() * employee.getDiscountPercentage();
+            order.setTotalPrice(Math.round(priceAfterDiscount*10.00)/10.00);
             System.out.println("The total price after employee discount : " + order.getTotalPrice());
         }
 
@@ -420,7 +417,5 @@ public class Shop implements ShopInterface{
         client.printObject();
     }
 
-    private double round(double price){
-        return ((Math.round(price)*10.0) /10.0);
-    }
+
 }

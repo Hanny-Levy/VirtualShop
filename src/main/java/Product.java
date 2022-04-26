@@ -16,7 +16,7 @@ public class Product {
     }
 
     public void roundPrice(){
-        this.price = Math.round(this.price*10.0)/10.0;
+        this.price = Math.round(this.price*10.00)/10.00;
 
     }
 

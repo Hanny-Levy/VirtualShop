@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class ShoppingCart {
 
@@ -8,8 +7,7 @@ public class ShoppingCart {
     private  double sumOfCart;
 
     public ShoppingCart() {
-        this.products = new HashMap<Product, Integer>();
-        //this.sumOfCart=0;
+        this.products = new HashMap<>();
     }
 
     public void print(){
@@ -23,9 +21,9 @@ public class ShoppingCart {
 
     }
 
-    public void setSumOfCart(Employee employee) {
+    public void setSumOfCart() {
         this.sumOfCart=0;double temp;
-        ArrayList<Double> sum = new ArrayList<Double>();
+        ArrayList<Double> sum = new ArrayList<>();
         for(Product product : products.keySet()) {
             temp=(product.getPrice()*products.get(product));
             sum.add(temp);
@@ -39,7 +37,6 @@ public class ShoppingCart {
 
 
     public double getSumOfCart() {
-        //this.setSumOfCart(employee);
         return sumOfCart;
     }
 

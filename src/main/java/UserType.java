@@ -1,3 +1,3 @@
 public enum UserType {
-    CLIENT , EMPLOYEE;
+    CLIENT , EMPLOYEE
 }

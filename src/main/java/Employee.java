@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class Employee extends Client {
@@ -52,9 +51,6 @@ public class Employee extends Client {
         return discountPercentage;
     }
 
-    public boolean equals(String username){
-        return (this.getUsername().equals(username));
-    }
 
     public Client getClient(){
         return new Client(this.getFirstName(),this.getLastName(),this.getUsername(),this.getPassword(),this.isMember());
