@@ -9,7 +9,6 @@ public class Shop implements ShopInterface{
     public Shop() {
         this.clientsAndEmployees = new ArrayList<>();
         this.products = new ArrayList<>();
-
         this.products.add(new Product("milk", 11.7888882 , 0.3, 3));
         this.products.add(new Product("chocolate", 9.089991, 0.1, 5));
         this.products.add(new Product("Bread", 7.58, 0.2, 6));
