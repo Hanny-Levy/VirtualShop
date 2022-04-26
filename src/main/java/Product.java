@@ -16,16 +16,12 @@ public class Product {
     }
 
     public void roundPrice(){
-        this.price =(double)(Math.round(this.price*10.0)/10.0);
+        this.price = Math.round(this.price*10.0)/10.0;
 
     }
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public double getPrice() {
@@ -39,14 +35,6 @@ public class Product {
         this.roundPrice();
     }
 
-
-    public double getDiscountPercentage() {
-        return discountPercentage;
-    }
-
-    public void setDiscountPercentage(double discountPercentage) {
-        this.discountPercentage = discountPercentage;
-    }
 
     public boolean isInStock() {
         return isInStock;
@@ -72,9 +60,7 @@ public class Product {
 
     public void setAmount(int amount) {
         this.amount = amount;
-        if(this.amount==0)
-            this.isInStock=false;
-        else this.isInStock=true;
+        this.isInStock= this.amount != 0;
     }
 
 

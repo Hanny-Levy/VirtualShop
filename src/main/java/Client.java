@@ -1,14 +1,13 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Client extends User {
-    private boolean isMember;
-    private ArrayList<Order> orders;
+    private final boolean isMember;
+    private final ArrayList<Order> orders;
 
     public Client(String firstName, String lastName, String username, String password, boolean isMember) {
         super(firstName, lastName, username, password);
         this.isMember = isMember;
-        this.orders=new ArrayList<Order>();
+        this.orders= new ArrayList<>();
     }
 
     public boolean isMember() {

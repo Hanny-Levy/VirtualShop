@@ -7,8 +7,8 @@ public class Shop implements ShopInterface{
     Scanner scannerInt = new Scanner(System.in);
 
     public Shop() {
-        this.clientsAndEmployees = new ArrayList<Employee>();
-        this.products = new ArrayList<Product>();
+        this.clientsAndEmployees = new ArrayList<>();
+        this.products = new ArrayList<>();
 
         this.products.add(new Product("milk", 11.7888882 , 0.3, 3));
         this.products.add(new Product("chocolate", 9.089991, 0.1, 5));
@@ -37,17 +37,16 @@ public class Shop implements ShopInterface{
                 default:
                     break;
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException | InputMismatchException e) {
             System.out.println("Invalid choice try again");
-        } catch (InputMismatchException exception) {
-            System.out.println("Invalid choice try again");
+            scannerInt.nextLine();
         }
     }
 
     // scanning and checking valid details for creating account
     public void createUser(UserType type) {
         int usernameTaken;
-        String username = null , firstName = null, lastName = null , password = null;
+        String username  , firstName, lastName  , password;
         System.out.println("Enter your first name:");
         firstName = scanner.nextLine();
         while (!checkValidName(firstName)) {
@@ -67,7 +66,7 @@ public class Shop implements ShopInterface{
             usernameTaken=this.doesUsernameExist(username);
         }
         while (usernameTaken!=-1);
-        boolean strongPassword = false;
+        boolean strongPassword;
         do {
             System.out.println("Enter a strong password: ");
             password = scanner.nextLine();
@@ -95,10 +94,6 @@ public class Shop implements ShopInterface{
         }
         while (correctAnswer==0);
 
-
-
-
-
         if (type == UserType.CLIENT) {
             Client newClient = new Client(firstName, lastName, username, password, member);
             this.clientsAndEmployees.add(new Employee(newClient));
@@ -115,16 +110,14 @@ public class Shop implements ShopInterface{
         System.out.println("User was added!");
     }
 
-    public void setMember(){
 
-    }
 
     public void loginMenu() {
-        Employee current = null;
+        Employee current;
         System.out.println("would you like to login to an employee account or client? \n" +
                 "0 - for client \n" +
                 "1 - for employee");
-            try{
+        try{
             int type = scannerInt.nextInt();
             UserType userType = UserType.values()[type];
             current=login(userType);
@@ -177,17 +170,19 @@ public class Shop implements ShopInterface{
                     }
                 }
             }
-            }catch (IndexOutOfBoundsException exception){
-                System.out.println("Invalid choice try again");
-            }catch (InputMismatchException exception){
+        }catch (IndexOutOfBoundsException  |InputMismatchException exception) {
+            System.out.println("Invalid choice try again");
+            scannerInt.nextLine();
 
-            }
+        }
 
 
     }
 
+
+
     public Employee login(UserType userType) {
-        int found = -1;Employee current=null;String password;
+        Employee current=null;String password;
         System.out.println("Enter your username");
         String username = scanner.nextLine();
         int index=doesUsernameExist(username);
@@ -246,9 +241,7 @@ public class Shop implements ShopInterface{
         return exist;
     }
 
-    public ArrayList<Employee> getClientsAndEmployees() {
-        return clientsAndEmployees;
-    }
+
 
     public ArrayList<Product> getProducts() {
         return products;
@@ -295,7 +288,7 @@ public class Shop implements ShopInterface{
     public void purchase(Employee employee) {
         int numberOfProduct,amount;
         double sum = 0;
-        Order order = new Order(employee, employee.getShoppingCart());
+        Order order = new Order(employee.getShoppingCart());
         this.setDiscountForMember(employee.isMember());
         System.out.println("choose the number of product you want :");
         this.printProductsInStock();
@@ -429,6 +422,6 @@ public class Shop implements ShopInterface{
     }
 
     private double round(double price){
-        return ((double)(Math.round(price)*10.0)/10.0);
+        return ((Math.round(price)*10.0) /10.0);
     }
 }
