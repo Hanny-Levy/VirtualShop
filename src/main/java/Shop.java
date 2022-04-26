@@ -178,7 +178,7 @@ public class Shop implements ShopInterface{
 
     public Employee login(UserType userType) {
         Employee current=null;String password;
-        System.out.println("Enter your username");
+        System.out.println("Enter your username:");
         String username = scanner.nextLine();
         int index=doesUsernameExist(username);
         if (index!=-1) {
@@ -187,7 +187,7 @@ public class Shop implements ShopInterface{
                 System.out.println("You are not an employee! Please connect through a client login");
                 return null;
             }
-                System.out.println("Enter your password");
+                System.out.println("Enter your password:");
                 password = scanner.nextLine();
                 while (!current.getPassword().equals(password)) {
                     System.out.println("Invalid password try again!");
